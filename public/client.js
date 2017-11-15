@@ -23,22 +23,29 @@ function qs(key) {
 }
 
 function loadAchievements(){
-  $('#badgeName').empty();
-  $('#badgeImage').empty();
-  $('#taskDetails').empty();
-  $('#achievements').empty();
+  clearContent();
+  
   for(var badge in badges){
     if(isComplete(badge)){
       $('#achievements').append('<img alt="'+getBadgeName(badge)+' badge" src="'+getBadgeImageUrl(badge)+'"/>');
     }
   }
-  if($('#achievements').length < 1){
+  if($('#achievements').find('img').length < 1){
     $('#achievements').append('<h2>You have achieved NOTHING!</h2>');
   }
 }
 
-function loadQuest(){
+
+function clearContent(){
   $('#achievements').empty();
+  $('#badgeName').empty();
+  $('#badgeImage').empty();
+  $('#taskDetails').empty();
+}
+
+function loadQuest(){
+  clearContent();
+  
   let currentHatNumber = getCurrentHat();
   let currentBadge = getCurrentBadge();
   let currentTask = getCurrentTask();
@@ -48,11 +55,6 @@ function loadQuest(){
     Cookies.set('current-fortress-badge', currentBadge);
   }
   
-  $('#badgeName').empty();
-  $('#badgeImage').empty();
-  $('#taskDetails').empty();
-  
-
   if(isComplete(currentBadge)){
     completeBadge(currentBadge);
   }
@@ -92,8 +94,8 @@ function loadQuest(){
 function checkForCompletion(){
   if(qs('complete')){
     let complete = parseInt(qs('complete'));
-    if(complete == getCurrentHat()){
-      completeTask(getCurrentBadge(), getCurrentTask());
+    if(complete == getCurrentHat() && !isComplete(getCurrentBadge())){
+      completeTask();
     }
   }
   loadQuest();
@@ -120,28 +122,25 @@ function completeBadge(badge){
   Cookies.set("fortress-badge-"+badge, true);
   $('#badgeName').append(getBadgeName(badge));
   $('#badgeImage').append('<img alt="'+getBadgeName(badge)+' badge" src="'+getBadgeImageUrl(badge)+'"/>');
-  $('#taskDetails').append("<h2>You've Earned This Badge!</h2>");
+  $('#taskDetails').append("<h2>You've Earned This Badge!</h2><br/><h2>Scan another and try to earn them all!</h2>");
 }
 
 
 function advanceHat(){
-  let currentHat = getCurrentHat();
-  currentHat+=1;
-  if(currentHat > hats.length - 1){
-    currentHat = 0;
-  } 
-  Cookies.set('current-fortress-hat', currentHat);
-  console.log(currentHat, hats[currentHat]);
+   let oldHat = Cookies.get('current-fortress-hat');
+   let newHat = Math.floor(Math.random() * 7);
+   while(newHat == oldHat){
+     newHat = Math.floor(Math.random() * 7);
+   }
+   Cookies.set('current-fortress-hat', newHat );
 }
 
-function completeTask(badge, task){
-  let currentTask = task;
+function completeTask(){
+  let currentTask = getCurrentTask();
+  let badge = getCurrentBadge();
   if(currentTask == 3){
-    $('#badgeName').append(getBadgeName(badge));
-    $('#badgeImage').append('<img alt="'+getBadgeName(badge)+' badge" src="'+getBadgeImageUrl(badge)+'"/>');
-    $('#taskDetails').append("<h2>You've Earned This Badge!</h2>");
-    completeBadge(badge);
     currentTask = 0;
+    completeBadge(badge);
   }
   Cookies.set('current-fortress-task', currentTask+1);
   advanceHat();
