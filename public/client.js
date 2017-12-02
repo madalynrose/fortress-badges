@@ -122,7 +122,7 @@ function completeBadge(badge){
 
 
 function advanceHat(){
-   let oldHat = Cookies.get('current-fortress-hat');
+   let oldHat = getCurrentHat();
    let newHat = Math.floor(Math.random() * 7);
    while(newHat == oldHat){
      newHat = Math.floor(Math.random() * 7);
