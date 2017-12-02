@@ -1,0 +1,77 @@
+/* styles */
+/* called by your view template */
+
+/* You might want to try something fancier: */
+/* less: http://lesscss.org/ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 5%;
+}
+
+h1 {
+  font-weight: bold;
+  width:100%;
+  text-align:center;
+  font-size:150%;
+}
+
+h2{
+  width:100%;
+  font-size:250%;
+  text-align: center;
+}
+
+#badgeName {
+  font-size:500%;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+
+button {
+  font-size: 400%;
+  border-radius: 3px;
+  background-color: teal;
+  color: white;
+  padding: 10px;
+  border: 3px solid grey;
+  box-shadow: 2px 2px black;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width:100%;
+}
+
+button:active {
+  box-shadow: none;
+}
+
+#badgeImage img{
+  width: 50%;
+  margin-left: 25%;
+  border-radius: 50%;
+}
+
+#achievements img{
+  width:33%;
+  border-radius:50%;
+}
+
+#badgeName {
+  text-align: center;
+}
+
+#taskDetails p {
+  text-align: center;
+  font-size:250%;
+}
+
+.nicejob {
+  text-decoration: line-through;
+}
